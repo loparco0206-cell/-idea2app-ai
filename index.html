@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#5b5ff2">
+<title>Idea2App AI Studio</title>
+<style>
+*{box-sizing:border-box}
+:root{--bg:#f6f7fb;--card:#fff;--text:#171923;--muted:#6b7280;--line:#e6e8ef;--accent:#5b5ff2;--accent2:#7c3aed}
+body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#f7f7ff,#f6f7fb 42%);color:var(--text)}
+.shell{width:min(1100px,calc(100% - 24px));margin:auto;padding:28px 0 80px}
+.hero{text-align:center;margin-bottom:20px}
+.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#ececff;color:var(--accent);font-size:11px;font-weight:900;letter-spacing:.14em}
+h1{font-size:clamp(40px,8vw,68px);letter-spacing:-.055em;margin:10px 0 4px}
+.hero p{color:var(--muted);max-width:760px;margin:0 auto;line-height:1.55}
+.card{background:rgba(255,255,255,.97);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 15px 45px rgba(24,27,45,.07);margin-top:14px}
+label{display:block;font-size:13px;font-weight:800;margin:12px 0 7px}
+input,textarea,select{width:100%;border:1px solid var(--line);border-radius:14px;padding:13px;font:inherit;background:#fbfbfd;color:var(--text);outline:none}
+textarea{min-height:115px;resize:vertical}
+input:focus,textarea:focus,select:focus{border-color:#aaaafb;box-shadow:0 0 0 4px #ececff}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button{font:inherit;font-weight:800;border:0;border-radius:14px;cursor:pointer}
+.primary{width:100%;padding:15px;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2));margin-top:14px}
+.secondary{padding:12px 14px;background:#fff;border:1px solid var(--line);color:var(--text)}
+.dark{padding:13px 15px;background:#171923;color:#fff}
+.ai-btn{width:100%;padding:15px;color:#fff;background:linear-gradient(135deg,#101827,#334155);margin-top:12px}
+.section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+.section-title h2,.section-title h3{margin:0}
+.kicker{font-size:11px;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);font-weight:900}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.module-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.module{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fcfcfe}
+.module label{margin:0;display:flex;gap:9px;align-items:flex-start;font-weight:700}
+.module input{width:auto;margin-top:3px}
+.module small{display:block;color:var(--muted);margin:5px 0 0 25px;line-height:1.4}
+.list-editor{display:grid;gap:8px}
+.edit-row{display:grid;grid-template-columns:1fr auto;gap:8px}
+.edit-row button{padding:0 13px;background:#fff0f0;color:#b42318;border:1px solid #ffd5d2}
+.add-row{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:8px}
+.add-row button{padding:0 16px;background:#eeeeff;color:var(--accent)}
+.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.preview-wrap{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff;margin-top:12px}
+.preview-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid var(--line);background:#fafafa}
+.preview-head span{font-size:12px;color:var(--muted);font-weight:800}
+iframe{width:100%;height:650px;border:0;background:#fff}
+.hidden{display:none!important}
+.status{font-size:13px;color:#0f9f6e;margin-top:10px;line-height:1.45}
+.error{color:#b42318}
+.ai-panel{background:linear-gradient(135deg,#f8f8ff,#f4f7fb);border:1px solid #dfe1ff;border-radius:18px;padding:16px;margin-top:14px}
+.ai-panel h3{margin:4px 0 5px}
+.ai-panel p{color:var(--muted);margin:0;line-height:1.5}
+.tip{padding:12px 14px;border-radius:14px;background:#f3f4f6;color:#4b5563;font-size:13px;line-height:1.5;margin-top:12px}
+.loader{display:none;margin-top:10px;color:#4b5563;font-size:13px}
+.loader.show{display:block}
+@media(max-width:760px){.row,.grid2,.module-grid,.actions{grid-template-columns:1fr}iframe{height:590px}}
+</style>
+</head>
+<body>
+<main class="shell">
+<section class="hero">
+  <div class="badge">BETA 5 • LIVE AI</div>
+  <h1>Idea2App AI Studio</h1>
+  <p>Describe an app in normal language. AI designs it, you modify it in plain English, preview it, and download the working starter.</p>
+</section>
+
+<section class="card">
+  <span class="kicker">1 • Tell AI what you want</span>
+  <label for="idea">App idea</label>
+  <textarea id="idea" placeholder="Example: Build an app for EVS workers to track assigned rooms, completed rooms, supply requests, notes, and daily statistics."></textarea>
+  <div class="row">
+    <div><label>Platform</label><select id="platform"><option>Mobile app</option><option>Web app</option><option>Mobile + Web</option></select></div>
+    <div><label>Style</label><select id="style"><option>Modern</option><option>Simple</option><option>Professional</option><option>Fun</option><option>Dark</option></select></div>
+  </div>
+  <button id="aiGenerate" class="ai-btn">✨ Build with AI</button>
+  <div id="generateLoader" class="loader">AI is designing your app…</div>
+  <div id="generateStatus" class="status"></div>
+</section>
+
+<section id="studio" class="card hidden">
+  <div class="section-title"><div><span class="kicker">2 • Modify</span><h2>No-code editor</h2></div><button id="startOver" class="secondary">Start Over</button></div>
+
+  <div class="grid2">
+    <div><label>App name</label><input id="appName"></div>
+    <div><label>Tagline</label><input id="tagline"></div>
+  </div>
+  <label>Description</label><textarea id="description"></textarea>
+
+  <div class="grid2">
+    <div><label>Main color</label><input id="accent" type="color" value="#5b5ff2"></div>
+    <div><label>Background color</label><input id="background" type="color" value="#f5f6fa"></div>
+  </div>
+
+  <div class="ai-panel">
+    <span class="kicker">AI EDITOR</span>
+    <h3>Tell AI what to change</h3>
+    <p>Examples: “Add login and profiles”, “remove payments”, “make the home screen simpler”, “add a bookings screen”, “change it to a dark blue theme”.</p>
+    <textarea id="modifyPrompt" placeholder="What do you want changed?"></textarea>
+    <button id="aiModify" class="ai-btn">✨ Apply AI Changes</button>
+    <div id="modifyLoader" class="loader">AI is updating your app…</div>
+    <div id="modifyStatus" class="status"></div>
+  </div>
+
+  <h3>Modules</h3>
+  <div id="modules" class="module-grid"></div>
+
+  <div class="grid2" style="margin-top:14px">
+    <div>
+      <div class="section-title"><h3>Screens</h3></div>
+      <div id="screenList" class="list-editor"></div>
+      <div class="add-row"><input id="newScreen" placeholder="Add screen"><button id="addScreen">Add</button></div>
+    </div>
+    <div>
+      <div class="section-title"><h3>Features</h3></div>
+      <div id="featureList" class="list-editor"></div>
+      <div class="add-row"><input id="newFeature" placeholder="Add feature"><button id="addFeature">Add</button></div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button id="refreshPreview" class="secondary">Refresh Preview</button>
+    <button id="downloadApp" class="dark">Download App</button>
+    <button id="downloadProject" class="primary" style="margin-top:0">Save Editable Project</button>
+  </div>
+  <div id="status" class="status"></div>
+</section>
+
+<section id="previewSection" class="card hidden">
+  <span class="kicker">3 • Preview</span>
+  <div class="preview-wrap">
+    <div class="preview-head"><strong>Live preview</strong><span>Starter app</span></div>
+    <iframe id="preview"></iframe>
+  </div>
+</section>
+</main>
+
+<script>
+const moduleDefs=[
+ ['login','Login & profiles','Sign-in and personal profiles'],
+ ['ai','AI assistant','Chat, suggestions and analysis'],
+ ['database','Cloud database','Sync data across devices'],
+ ['maps','Maps & location','Maps, routes and nearby places'],
+ ['payments','Payments','Checkout and subscriptions'],
+ ['booking','Booking','Appointments and reservations'],
+ ['camera','Camera / upload','Photos and attachments'],
+ ['notifications','Notifications','Alerts and reminders'],
+ ['search','Search & filters','Find records quickly'],
+ ['analytics','Analytics','Counts and simple statistics'],
+ ['sharing','Sharing','Share app content'],
+ ['offline','Offline mode','Basic local storage']
+];
+let state={idea:'',name:'MyApp',tagline:'Built with Idea2App',description:'',platform:'Mobile app',style:'Modern',accent:'#5b5ff2',background:'#f5f6fa',screens:['Home','Create','History','Settings'],features:['Dashboard','Create and save items','History','Settings'],modules:{offline:true}};
+
+const $=id=>document.getElementById(id);
+function safe(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function attr(s){return safe(s).replace(/`/g,'&#96;')}
+function normalizeState(x){
+ const mods={}; moduleDefs.forEach(([id])=>mods[id]=!!(x.modules&&x.modules[id]));
+ return {
+   idea:String(x.idea||state.idea||''),
+   name:String(x.name||'MyApp'),
+   tagline:String(x.tagline||'Built with Idea2App'),
+   description:String(x.description||x.idea||''),
+   platform:String(x.platform||$('platform').value||'Mobile app'),
+   style:String(x.style||$('style').value||'Modern'),
+   accent:/^#[0-9a-f]{6}$/i.test(x.accent||'')?x.accent:'#5b5ff2',
+   background:/^#[0-9a-f]{6}$/i.test(x.background||'')?x.background:'#f5f6fa',
+   screens:Array.isArray(x.screens)&&x.screens.length?x.screens.slice(0,8).map(String):['Home','Create','History','Settings'],
+   features:Array.isArray(x.features)?x.features.slice(0,12).map(String):[],
+   modules:mods
+ };
+}
+function applyState(x){
+ state=normalizeState(x);
+ $('appName').value=state.name;$('tagline').value=state.tagline;$('description').value=state.description;$('accent').value=state.accent;$('background').value=state.background;
+ renderModules();renderList('screens');renderList('features');updatePreview();
+ $('studio').classList.remove('hidden');$('previewSection').classList.remove('hidden');
+}
+function renderModules(){
+ $('modules').innerHTML=moduleDefs.map(([id,n,d])=>`<div class="module"><label><input type="checkbox" data-mod="${id}" ${state.modules[id]?'checked':''}><span>${n}</span></label><small>${d}</small></div>`).join('');
+ document.querySelectorAll('[data-mod]').forEach(x=>x.onchange=e=>{state.modules[e.target.dataset.mod]=e.target.checked;updatePreview()});
+}
+function renderList(kind){
+ const arr=state[kind],el=$(kind==='screens'?'screenList':'featureList');
+ el.innerHTML=arr.map((v,i)=>`<div class="edit-row"><input value="${attr(v)}" data-${kind}="${i}"><button data-del="${i}">×</button></div>`).join('');
+ el.querySelectorAll(`[data-${kind}]`).forEach(inp=>inp.oninput=e=>{state[kind][+e.target.dataset[kind]]=e.target.value;updatePreview()});
+ el.querySelectorAll('[data-del]').forEach(btn=>btn.onclick=e=>{state[kind].splice(+e.target.dataset.del,1);renderList(kind);updatePreview()});
+}
+function sync(){
+ state.name=$('appName').value||'MyApp';state.tagline=$('tagline').value||'';state.description=$('description').value||'';state.accent=$('accent').value;state.background=$('background').value;
+}
+async function callAI(payload){
+ const r=await fetch('/.netlify/functions/ai',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
+ const data=await r.json().catch(()=>({error:'Invalid server response'}));
+ if(!r.ok) throw new Error(data.error||'AI request failed');
+ return data;
+}
+$('aiGenerate').onclick=async()=>{
+ const idea=$('idea').value.trim(); if(!idea){$('idea').focus();return}
+ $('generateLoader').classList.add('show');$('generateStatus').textContent='';
+ try{
+   const data=await callAI({mode:'generate',idea,platform:$('platform').value,style:$('style').value});
+   state.idea=idea;applyState({...data.app,idea,platform:$('platform').value,style:$('style').value});
+   $('generateStatus').textContent='AI generated your app.';
+   $('studio').scrollIntoView({behavior:'smooth'});
+ }catch(e){$('generateStatus').innerHTML='<span class="error">'+safe(e.message)+'</span>'}
+ finally{$('generateLoader').classList.remove('show')}
+};
+$('aiModify').onclick=async()=>{
+ sync(); const instruction=$('modifyPrompt').value.trim(); if(!instruction){$('modifyPrompt').focus();return}
+ $('modifyLoader').classList.add('show');$('modifyStatus').textContent='';
+ try{
+   const data=await callAI({mode:'modify',instruction,app:state});
+   applyState({...data.app,idea:state.idea,platform:state.platform,style:state.style});
+   $('modifyPrompt').value='';$('modifyStatus').textContent='AI changes applied.';
+ }catch(e){$('modifyStatus').innerHTML='<span class="error">'+safe(e.message)+'</span>'}
+ finally{$('modifyLoader').classList.remove('show')}
+};
+['appName','tagline','description','accent','background'].forEach(id=>$(id).oninput=updatePreview);
+$('addScreen').onclick=()=>{const v=$('newScreen').value.trim();if(v){state.screens.push(v);$('newScreen').value='';renderList('screens');updatePreview()}};
+$('addFeature').onclick=()=>{const v=$('newFeature').value.trim();if(v){state.features.push(v);$('newFeature').value='';renderList('features');updatePreview()}};
+$('startOver').onclick=()=>location.reload();$('refreshPreview').onclick=updatePreview;
+
+function moduleBody(id){
+ if(id==='ai')return'<input placeholder="Ask AI..."><button class="primary" onclick="alert(\'Connect this generated app to an AI endpoint to make its own assistant live.\')">Ask AI</button>';
+ if(id==='payments')return'<button class="primary" onclick="alert(\'Connect a payment provider to activate checkout.\')">Checkout</button>';
+ if(id==='maps')return'<div class="mapbox">Map placeholder<br><span>Connect a maps provider for live maps.</span></div>';
+ if(id==='camera')return'<input type="file" accept="image/*">';
+ if(id==='booking')return'<input type="date"><input type="time"><button class="primary">Save Booking</button>';
+ if(id==='login')return'<input placeholder="Email"><input type="password" placeholder="Password"><button class="primary">Sign In</button>';
+ if(id==='notifications')return'<button class="primary" onclick="alert(\'Prototype notification enabled.\')">Enable Notifications</button>';
+ if(id==='search')return'<input placeholder="Search...">';
+ if(id==='database')return'<div class="muted">Local prototype storage is active. Connect Supabase/Firebase for cloud sync.</div>';
+ if(id==='analytics')return'<div><b id="count">0</b> saved items</div>';
+ if(id==='sharing')return'<button class="primary" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):alert(\'Sharing unavailable.\')">Share</button>';
+ if(id==='offline')return'<div class="muted">Basic local data is stored on this device.</div>';
+ return'';
+}
+function pageBody(screen,i,moduleCards,featureItems){
+ if(i===0)return`<div class="hero2"><small>${safe(state.tagline)}</small><h2>${safe(state.name)}</h2><p>${safe(state.description)}</p></div><div class="card2"><h3>Features</h3><ul>${featureItems}</ul></div>${moduleCards}`;
+ if(/create|new|add|room|order|entry|task/i.test(screen))return`<div class="card2"><h2>${safe(screen)}</h2><form id="addForm"><input id="title" required placeholder="Title"><textarea id="notes" placeholder="Notes"></textarea><button class="primary">Save</button></form></div>`;
+ if(/history|completed|saved|trip|assignment|record|list/i.test(screen))return`<div class="card2"><h2>${safe(screen)}</h2><div id="savedList"></div></div>`;
+ if(/settings|profile/i.test(screen))return`<div class="card2"><h2>${safe(screen)}</h2><input placeholder="Display name"><button class="primary">Save Settings</button></div>`;
+ return`<div class="card2"><h2>${safe(screen)}</h2><p class="muted">This screen is ready for further customization.</p></div>`;
+}
+function generatedApp(){
+ sync();
+ const enabled=moduleDefs.filter(([id])=>state.modules[id]);
+ const screens=(state.screens.length?state.screens:['Home']).slice(0,6);
+ const modules=enabled.map(([id,n,d])=>`<div class="module-card"><h3>${n}</h3><p>${d}</p>${moduleBody(id)}</div>`).join('');
+ const features=state.features.map(f=>`<li>${safe(f)}</li>`).join('');
+ const pages=screens.map((s,i)=>`<section class="page ${i===0?'active':''}" data-page="${i}">${pageBody(s,i,modules,features)}</section>`).join('');
+ const nav=screens.map((s,i)=>`<button class="${i===0?'active':''}" data-page="${i}">${safe(s)}</button>`).join('');
+ return `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="${state.accent}"><title>${safe(state.name)}</title><style>
+*{box-sizing:border-box}:root{--accent:${state.accent};--bg:${state.background};--text:#171923;--muted:#6b7280;--line:#e5e7eb}body{margin:0;background:var(--bg);font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--text);padding-bottom:86px}.top{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);padding:16px 18px;border-bottom:1px solid var(--line);z-index:4}.top small{font-size:10px;letter-spacing:.14em;font-weight:900;color:var(--muted)}.top h1{margin:2px 0 0;font-size:22px}.wrap{max-width:760px;margin:auto;padding:16px}.page{display:none}.page.active{display:block}.hero2,.card2,.module-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:17px;margin-bottom:10px}.hero2{background:linear-gradient(135deg,#fff,#f2f1ff)}.hero2 h2{font-size:30px;margin:5px 0}.hero2 p,.module-card p,.muted{color:var(--muted)}.module-card h3{margin:0 0 5px}.module-card p{margin:0 0 10px;font-size:13px}input,textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;font:inherit;margin:6px 0}textarea{min-height:90px}.primary{width:100%;padding:13px;border:0;border-radius:12px;background:var(--accent);color:#fff;font-weight:800;margin-top:8px}.item{border:1px solid var(--line);border-radius:12px;padding:11px;margin-top:8px}.mapbox{padding:28px;text-align:center;background:#f3f4f6;border-radius:12px}.mapbox span{font-size:12px;color:var(--muted)}.nav{position:fixed;bottom:0;left:0;right:0;display:grid;grid-template-columns:repeat(${screens.length},1fr);background:#fff;border-top:1px solid var(--line);padding:8px 6px calc(8px + env(safe-area-inset-bottom));z-index:5}.nav button{border:0;background:transparent;border-radius:11px;padding:11px 3px;font-size:11px;font-weight:800;color:var(--muted)}.nav button.active{background:#eeeeff;color:var(--accent)}ul{line-height:1.8}
+</style></head><body><header class="top"><small>STARTER APP</small><h1>${safe(state.name)}</h1></header><main class="wrap">${pages}</main><nav class="nav">${nav}</nav><script>
+const KEY='${state.name.replace(/[^a-z0-9]/gi,'')}-data';let items=JSON.parse(localStorage.getItem(KEY)||'[]');const buttons=[...document.querySelectorAll('.nav button')],pages=[...document.querySelectorAll('.page')];buttons.forEach((b,i)=>b.onclick=()=>{buttons.forEach((x,n)=>x.classList.toggle('active',n===i));pages.forEach((p,n)=>p.classList.toggle('active',n===i));render()});function render(){const list=document.getElementById('savedList');if(list)list.innerHTML=items.length?items.slice().reverse().map(x=>'<div class="item"><b>'+x.title+'</b><div class="muted">'+(x.notes||'')+'</div></div>').join(''):'<div class="muted">Nothing saved yet.</div>';const c=document.getElementById('count');if(c)c.textContent=items.length}const f=document.getElementById('addForm');if(f)f.onsubmit=e=>{e.preventDefault();items.push({title:document.getElementById('title').value,notes:document.getElementById('notes').value});localStorage.setItem(KEY,JSON.stringify(items));e.target.reset();render();alert('Saved')};render();
+<\/script></body></html>`;
+}
+function updatePreview(){sync();$('preview').srcdoc=generatedApp();$('previewSection').classList.remove('hidden')}
+function download(name,content,type='text/html'){const b=new Blob([content],{type}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),2500)}
+$('downloadApp').onclick=()=>{download(state.name+'-app.html',generatedApp());$('status').textContent='Working starter app downloaded.'};
+$('downloadProject').onclick=()=>{sync();download(state.name+'-project.json',JSON.stringify(state,null,2),'application/json');$('status').textContent='Editable project file saved.'};
+</script>
+</body>
+</html>
