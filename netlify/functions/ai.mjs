@@ -1,1 +1,1 @@
-export { default, config } from "../../ai.mjs";
+export { default } from "../../ai.mjs";
