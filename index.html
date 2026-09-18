@@ -4,126 +4,114 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#111827">
+<link rel="manifest" href="/manifest.webmanifest">
 <title>Idea2Anything AI Studio</title>
 <style>
 :root{--bg:#f6f7fb;--card:#fff;--ink:#111827;--muted:#667085;--line:#e6e8ef;--accent:#6d5dfc;--good:#15803d;--danger:#b42318}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#f4f1ff,#fff);color:var(--ink)}
-.wrap{max-width:980px;margin:auto;padding:26px 16px 80px}.hero{text-align:center;padding:20px 0}.badge{display:inline-block;padding:8px 12px;border-radius:999px;background:#ebe8ff;color:#6354dd;font-size:12px;font-weight:900;letter-spacing:.11em}h1{font-size:clamp(38px,7vw,64px);line-height:.98;margin:18px 0 10px}.hero p{max-width:780px;margin:auto;color:var(--muted);font-size:18px;line-height:1.55}
-.card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 14px 38px rgba(32,36,63,.08);margin:16px 0}.kicker{font-size:12px;font-weight:900;letter-spacing:.14em;color:#697386}.label{display:block;font-weight:850;margin:14px 0 8px}
-textarea,input,select{width:100%;border:1px solid #d8dbe6;background:#fcfcff;padding:14px 15px;border-radius:15px;outline:none;font:inherit}textarea{min-height:145px;resize:vertical}.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}@media(max-width:720px){.grid{grid-template-columns:1fr}}
-button{font:inherit;font-weight:850;border:0;border-radius:14px;padding:13px 15px;cursor:pointer}.primary{background:linear-gradient(135deg,#111827,#344054);color:#fff}.primary.full{width:100%;font-size:18px}.secondary{background:#ece9ff;color:#5145cd}.ghost{background:#f0f2f6;color:#344054}.status{margin-top:12px;font-weight:750;color:var(--muted)}.error{color:var(--danger)}.good{color:var(--good)}.hidden{display:none!important}
-.result h2{font-size:32px;margin:8px 0}.tag{display:inline-block;padding:7px 10px;border-radius:999px;background:#eeeaff;color:#654ee7;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.09em}.summary{color:var(--muted);line-height:1.6}
-.panels{display:grid;grid-template-columns:1fr 1fr;gap:12px}.panel{border:1px solid var(--line);border-radius:18px;padding:16px;background:#fcfcff}.panel h3{margin:0 0 10px}.panel ul{padding-left:20px;line-height:1.6}@media(max-width:720px){.panels{grid-template-columns:1fr}}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.actions button{flex:1;min-width:150px}.mobile-box{border:1px solid #d9d7ff;background:#faf9ff;border-radius:20px;padding:18px;margin-top:16px}.files{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}@media(max-width:620px){.files{grid-template-columns:1fr}}.filebtn{background:#fff;border:1px solid var(--line);color:#344054}
-code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}pre{white-space:pre-wrap;background:#101828;color:#e4e7ec;padding:15px;border-radius:15px;overflow:auto}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#f4f1ff,#f8f9fc 40%,#fff);color:var(--ink)}
+button,input,textarea,select{font:inherit}button{cursor:pointer}.wrap{max-width:980px;margin:auto;padding:26px 16px 96px}.hero{text-align:center;padding:20px 0}.badge{display:inline-block;padding:8px 12px;border-radius:999px;background:#ebe8ff;color:#6354dd;font-size:12px;font-weight:900;letter-spacing:.11em}
+h1{font-size:clamp(38px,7vw,64px);line-height:.98;margin:18px 0 10px;letter-spacing:-.04em}.hero p{max-width:800px;margin:auto;color:var(--muted);font-size:18px;line-height:1.55}
+.card{background:rgba(255,255,255,.97);border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 14px 38px rgba(32,36,63,.08);margin:16px 0}.kicker{font-size:12px;font-weight:900;letter-spacing:.14em;color:#697386}.label{display:block;font-weight:850;margin:14px 0 8px}
+textarea,input,select{width:100%;border:1px solid #d8dbe6;background:#fcfcff;padding:14px 15px;border-radius:15px;outline:none}textarea{min-height:145px;resize:vertical}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:720px){.grid3,.grid2{grid-template-columns:1fr}}
+.primary,.secondary,.ghost,.danger{border:0;border-radius:14px;padding:13px 15px;font-weight:850}.primary{background:linear-gradient(135deg,#111827,#344054);color:#fff}.primary.full{width:100%;font-size:18px}.secondary{background:#ece9ff;color:#5145cd}.ghost{background:#f0f2f6;color:#344054}.danger{background:#fff1f0;color:var(--danger)}
+.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1;min-width:130px}.status{margin-top:12px;font-weight:750;color:var(--muted)}.status.error{color:var(--danger)}.status.good{color:var(--good)}.hidden{display:none!important}.summary{color:var(--muted);line-height:1.6}
+.result h2{font-size:32px;margin:8px 0}.tag{display:inline-block;padding:7px 10px;border-radius:999px;background:#eeeaff;color:#654ee7;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.09em}.panels{display:grid;grid-template-columns:1fr 1fr;gap:12px}.panel{border:1px solid var(--line);border-radius:18px;padding:16px;background:#fcfcff}.panel h3{margin:0 0 10px}.panel ul{padding-left:20px;line-height:1.6}@media(max-width:720px){.panels{grid-template-columns:1fr}}
+.attach,.toolbox{border:1px dashed #c8ccd8;border-radius:17px;padding:14px;background:#fafbff;margin-top:14px}.tiny{font-size:12px;color:#7a8190;line-height:1.45}.history-item{border:1px solid var(--line);border-radius:15px;padding:13px;margin:8px 0;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#fff}.history-item strong{display:block}.history-item small{color:var(--muted)}
+.stage{aspect-ratio:9/16;max-width:320px;max-height:570px;margin:12px auto;background:#111827;border-radius:18px;overflow:hidden}.stage canvas{width:100%;height:100%;display:block}pre{white-space:pre-wrap;word-break:break-word;background:#101828;color:#e4e7ec;padding:15px;border-radius:15px;overflow:auto;max-height:420px}
+.files{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.filebtn{background:#fff;border:1px solid var(--line);color:#344054}@media(max-width:620px){.files{grid-template-columns:1fr}}
+nav{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);width:min(720px,calc(100% - 24px));background:rgba(15,23,42,.95);backdrop-filter:blur(12px);border-radius:24px;padding:8px;display:flex;gap:6px;z-index:20;box-shadow:0 16px 38px rgba(0,0,0,.22)}nav button{flex:1;border:0;border-radius:18px;background:transparent;color:#d0d5dd;padding:12px 8px;font-weight:800}nav button.active{background:#18c4c8;color:#062b2e}
 </style>
 </head>
 <body>
 <div class="wrap">
-<section class="hero">
-  <span class="badge">BETA 8 • IOS + ANDROID READY</span>
+<section class="hero" id="createSec">
+  <span class="badge">BETA 8.1 • IOS + ANDROID + VIDEO</span>
   <h1>Idea2Anything AI Studio</h1>
-  <p>Create apps, websites, videos, documents, business plans, social content, and native mobile app starters for iPhone and Android.</p>
+  <p>Create mobile apps, web apps, websites, videos, social content, documents, business plans, studies, workflows, itineraries, spreadsheet plans, presentations, and more.</p>
 </section>
 
 <section class="card">
   <div class="kicker">1 • WHAT DO YOU WANT TO CREATE?</div>
   <textarea id="idea" placeholder="Example: Build a delivery-driver app for iPhone and Android with login, order tracking, map, notifications, and AI suggestions."></textarea>
-  <div class="grid">
+  <div class="grid3">
     <div><label class="label">Create</label><select id="type">
-      <option value="auto">Let AI decide</option>
-      <option value="mobile">Native mobile app (iOS + Android)</option>
-      <option value="app">Web app</option><option value="website">Website</option><option value="video">Video</option>
-      <option value="social">Social content</option><option value="document">Document</option><option value="business">Business plan</option><option value="other">Other</option>
+      <option value="auto">Let AI decide</option><option value="mobile">Native mobile app (iOS + Android)</option><option value="app">Web app</option><option value="website">Website</option><option value="video">Video</option><option value="social">Social content</option><option value="document">Document</option><option value="business">Business plan</option><option value="study">Study / devotional</option><option value="workflow">Workflow / checklist</option><option value="itinerary">Travel itinerary</option><option value="spreadsheet">Spreadsheet plan</option><option value="presentation">Presentation</option><option value="other">Other</option>
     </select></div>
     <div><label class="label">Style</label><select id="style"><option>Modern</option><option>Simple</option><option>Professional</option><option>Bold</option><option>Warm</option><option>Minimal</option></select></div>
     <div><label class="label">AI mode</label><select id="mode"><option value="fast">Fast</option><option value="balanced">Balanced</option><option value="deep">Deep</option></select></div>
   </div>
+  <div class="attach"><label class="label" style="margin-top:0">Optional text reference file</label><input id="referenceFile" type="file" accept=".txt,.md,.csv,.json,.html,.js,.mjs,.css"><div class="tiny">The app reads only a limited text excerpt in your browser.</div></div>
   <button id="createBtn" class="primary full" style="margin-top:16px">✨ Create with AI</button>
   <div id="status" class="status"></div>
 </section>
 
-<section id="result" class="card result hidden">
-  <span id="rtype" class="tag"></span>
-  <h2 id="title"></h2>
-  <p id="summary" class="summary"></p>
+<section id="resultSec" class="card result hidden">
+  <span id="rtype" class="tag"></span><h2 id="title"></h2><p id="summary" class="summary"></p>
   <div class="panels">
     <div class="panel"><h3>Screens / Sections</h3><ul id="sections"></ul></div>
-    <div class="panel"><h3>Features</h3><ul id="items"></ul></div>
+    <div class="panel"><h3>Features / Key items</h3><ul id="items"></ul></div>
   </div>
 
-  <div id="mobileTools" class="mobile-box hidden">
-    <h3>📱 iPhone + Android Starter Project</h3>
-    <p class="summary">Download the generated Expo/React Native starter files. Put them in one folder, run <code>npm install</code>, then <code>npx expo start</code>.</p>
+  <div id="mobileTools" class="toolbox hidden">
+    <h3>📱 iPhone + Android Starter</h3>
+    <p class="summary">Export a lightweight Expo/React Native starter generated from this blueprint.</p>
     <div class="files">
       <button class="filebtn" id="appjsBtn">Download App.js</button>
       <button class="filebtn" id="packageBtn">Download package.json</button>
       <button class="filebtn" id="appjsonBtn">Download app.json</button>
       <button class="filebtn" id="easBtn">Download eas.json</button>
-      <button class="filebtn" id="readmeBtn">Download MOBILE_README.md</button>
+      <button class="filebtn" id="mobileReadmeBtn">Download MOBILE_README.md</button>
       <button class="filebtn" id="envBtn">Download .env.example</button>
     </div>
-    <details style="margin-top:12px"><summary style="font-weight:850">Build commands</summary>
-      <pre>npm install
-npx expo start
-
-# Later, for installable builds:
-npm install -g eas-cli
-eas login
-eas build -p ios
-eas build -p android</pre>
-    </details>
   </div>
 
-  <label class="label">Modify with AI</label>
-  <input id="modify" placeholder="Example: Add camera upload, make it dark, add login...">
-  <div class="actions"><button id="modifyBtn" class="secondary">✨ Modify</button><button id="jsonBtn" class="ghost">Download blueprint</button></div>
+  <div id="videoTools" class="toolbox hidden">
+    <h3>🎬 Browser Video Builder</h3>
+    <p class="tiny">Creates a simple slideshow-style video from AI scenes and optional images. This is not a dedicated generative-video model.</p>
+    <input id="videoImages" type="file" accept="image/*" multiple>
+    <div class="stage"><canvas id="canvas" width="720" height="1280"></canvas></div>
+    <div class="row"><button id="previewBtn" class="secondary">▶ Preview</button><button id="exportVideoBtn" class="primary">⬇ Create video file</button></div>
+    <div id="videoStatus" class="status"></div>
+  </div>
+
+  <label class="label">Modify with AI</label><input id="modify" placeholder="Example: Add camera upload, make it simpler, add 3 more scenes...">
+  <div class="row" style="margin-top:10px"><button id="modifyBtn" class="secondary">✨ Modify</button><button id="saveBtn" class="ghost">Save project</button><button id="copyBtn" class="ghost">Copy</button></div>
+  <div class="row" style="margin-top:10px"><button id="jsonBtn" class="ghost">Download JSON</button><button id="txtBtn" class="ghost">Download TXT</button><button id="htmlBtn" class="ghost">Download HTML</button></div>
+  <details style="margin-top:14px"><summary style="font-weight:850">Full AI blueprint</summary><pre id="raw"></pre></details>
+</section>
+
+<section class="card" id="historySec">
+  <div class="row"><div><div class="kicker">SAVED ON THIS DEVICE</div><h2 style="margin:4px 0">Project History</h2></div><button id="clearHistory" class="danger">Clear</button></div>
+  <div id="historyList"></div>
 </section>
 </div>
 
-<script>
-const $=id=>document.getElementById(id);
-let current=null;
-function setStatus(t,e=false){$('status').textContent=t||'';$('status').className='status '+(e?'error':'good')}
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function arr(v){return Array.isArray(v)?v:[]}
-function render(p){
- current=p;$('rtype').textContent=p.type||'project';$('title').textContent=p.title||'Untitled';$('summary').textContent=p.summary||'';
- $('sections').innerHTML=arr(p.sections).map(x=>`<li>${esc(x)}</li>`).join('');$('items').innerHTML=arr(p.items).map(x=>`<li>${esc(x)}</li>`).join('');
- $('mobileTools').classList.toggle('hidden',p.type!=='mobile');$('result').classList.remove('hidden');$('result').scrollIntoView({behavior:'smooth'})
-}
-async function callAI(instruction=''){
- const idea=$('idea').value.trim();if(!idea){setStatus('Please enter an idea.',true);return}
- $('createBtn').disabled=true;setStatus('AI is creating your project...');
- try{
-  const r=await fetch('/.netlify/functions/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-   idea,type:$('type').value,style:$('style').value,mode:$('mode').value,instruction,previous:instruction?current:null
-  })});
-  const d=await r.json().catch(()=>null);if(!r.ok||!d?.ok)throw new Error(d?.detail||d?.error||`Server error (${r.status})`);
-  render(d.project);setStatus('Created successfully.')
- }catch(e){setStatus(e.message||'Creation failed.',true)}finally{$('createBtn').disabled=false}
-}
-$('createBtn').onclick=()=>callAI();
-$('modifyBtn').onclick=()=>{const x=$('modify').value.trim();if(!x){setStatus('Tell AI what to change.',true);return}callAI(x)}
-function download(name,content,type='text/plain'){const b=new Blob([content],{type}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),3000)}
-$('jsonBtn').onclick=()=>download('project-blueprint.json',JSON.stringify(current,null,2),'application/json');
+<nav>
+  <button data-target="createSec" class="active">✨ Create</button>
+  <button data-target="resultSec">📄 Result</button>
+  <button data-target="historySec">🕘 History</button>
+</nav>
 
-function mobile(){
- const m=current?.mobile||{};return {
-  appjs:m.appjs||'',
-  package:m.packageJson||{},
-  appjson:m.appJson||{},
-  eas:m.easJson||{},
-  readme:m.readme||'',
-  env:m.envExample||''
- }
-}
-$('appjsBtn').onclick=()=>download('App.js',mobile().appjs,'text/javascript');
-$('packageBtn').onclick=()=>download('package.json',JSON.stringify(mobile().package,null,2),'application/json');
-$('appjsonBtn').onclick=()=>download('app.json',JSON.stringify(mobile().appjson,null,2),'application/json');
-$('easBtn').onclick=()=>download('eas.json',JSON.stringify(mobile().eas,null,2),'application/json');
-$('readmeBtn').onclick=()=>download('MOBILE_README.md',mobile().readme,'text/markdown');
-$('envBtn').onclick=()=>download('.env.example',mobile().env,'text/plain');
+<script>
+const $=id=>document.getElementById(id); let current=null, refText="", images=[], timer=null; const HKEY="idea2anything_v81_history";
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{const el=$(b.dataset.target);if(el&&!el.classList.contains("hidden"))el.scrollIntoView({behavior:"smooth"});document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("active",x===b))});
+function stat(t,k=""){ $("status").textContent=t||"";$("status").className="status "+k } function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))} function arr(v){return Array.isArray(v)?v:[]}
+$("referenceFile").onchange=async e=>{const f=e.target.files?.[0];refText="";if(!f)return;try{refText=(await f.text()).slice(0,12000);stat("Reference loaded.","good")}catch{stat("Could not read that file.","error")}}
+function normalize(p){return {type:p?.type||"other",title:p?.title||"Untitled",summary:p?.summary||"",sections:arr(p?.sections),items:arr(p?.items),output:p?.output||{},video:p?.video||null}}
+function render(p){current=normalize(p);$("rtype").textContent=current.type;$("title").textContent=current.title;$("summary").textContent=current.summary;$("sections").innerHTML=current.sections.map(x=>`<li>${esc(x)}</li>`).join("")||"<li>No sections supplied</li>";$("items").innerHTML=current.items.map(x=>`<li>${esc(x)}</li>`).join("")||"<li>No key items supplied</li>";$("raw").textContent=JSON.stringify(current,null,2);$("mobileTools").classList.toggle("hidden",current.type!=="mobile");$("videoTools").classList.toggle("hidden",current.type!=="video");$("resultSec").classList.remove("hidden");if(current.type==="video")drawScene(0);$("resultSec").scrollIntoView({behavior:"smooth"})}
+async function callAI(instruction=""){const idea=$("idea").value.trim();if(!idea){stat("Please describe what you want to create.","error");return}$("createBtn").disabled=true;stat("AI is creating your project...");try{const r=await fetch("/.netlify/functions/ai",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({idea,type:$("type").value,style:$("style").value,mode:$("mode").value,instruction,previous:instruction?current:null,reference:refText})});const d=await r.json().catch(()=>null);if(!r.ok||!d?.ok)throw new Error(d?.detail||d?.error||`Server error (${r.status})`);render(d.project);stat("Created successfully.","good")}catch(e){stat(e.message||"Creation failed.","error")}finally{$("createBtn").disabled=false}}
+$("createBtn").onclick=()=>callAI();$("modifyBtn").onclick=()=>{const x=$("modify").value.trim();if(!x){stat("Tell AI what to change.","error");return}callAI(x)}
+function hist(){try{return JSON.parse(localStorage.getItem(HKEY)||"[]")}catch{return[]}} function setHist(v){localStorage.setItem(HKEY,JSON.stringify(v.slice(0,25)));renderHist()} function renderHist(){const h=hist();$("historyList").innerHTML=h.length?h.map((x,i)=>`<div class="history-item"><div><strong>${esc(x.project.title)}</strong><small>${esc(x.project.type)} • ${new Date(x.savedAt).toLocaleString()}</small></div><button class="ghost" onclick="openHist(${i})">Open</button></div>`).join(""):'<p class="summary">No saved projects yet.</p>'} window.openHist=i=>{const x=hist()[i];if(x)render(x.project)};$("saveBtn").onclick=()=>{if(!current)return;const h=hist();h.unshift({savedAt:new Date().toISOString(),project:current});setHist(h);stat("Saved on this device.","good")};$("clearHistory").onclick=()=>{if(confirm("Clear saved history?"))setHist([])}
+function dl(name,content,type="text/plain"){const b=content instanceof Blob?content:new Blob([content],{type}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),3000)} function fname(ext){return (current?.title||"project").replace(/[^a-z0-9]+/gi,"-").replace(/^-|-$/g,"").toLowerCase()+"."+ext}
+$("copyBtn").onclick=async()=>{await navigator.clipboard.writeText(JSON.stringify(current,null,2));stat("Copied.","good")};$("jsonBtn").onclick=()=>dl(fname("json"),JSON.stringify(current,null,2),"application/json");$("txtBtn").onclick=()=>dl(fname("txt"),`${current.title}\n\n${current.summary}\n\n${current.sections.map(x=>"• "+x).join("\n")}\n\n${current.items.map(x=>"• "+x).join("\n")}`);$("htmlBtn").onclick=()=>dl(fname("html"),`<!doctype html><meta charset="utf-8"><title>${esc(current.title)}</title><style>body{font-family:system-ui;max-width:800px;margin:40px auto;padding:0 20px;line-height:1.6}</style><h1>${esc(current.title)}</h1><p>${esc(current.summary)}</p><h2>Sections</h2><ul>${current.sections.map(x=>`<li>${esc(x)}</li>`).join("")}</ul><h2>Key items</h2><ul>${current.items.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`,"text/html");
+
+function mobileFiles(){const safe=(current?.title||"Idea2AnythingApp").replace(/[^A-Za-z0-9]/g,"").slice(0,32)||"Idea2AnythingApp",slug=(current?.title||"idea2anything-app").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40)||"idea2anything-app";const screens=(current?.sections?.length?current.sections:["Home","Create","History","Settings"]).slice(0,6);const features=current?.items||[];const appjs=`import React,{useState} from 'react';\nimport {SafeAreaView,View,Text,TouchableOpacity,ScrollView,StyleSheet} from 'react-native';\n\nconst SCREENS=${JSON.stringify(screens)};\nconst FEATURES=${JSON.stringify(features)};\nexport default function App(){\n const [screen,setScreen]=useState(SCREENS[0]||'Home');\n return <SafeAreaView style={s.safe}><View style={s.header}><Text style={s.title}>${current?.title?.replace(/`/g,"")||"My App"}</Text><Text style={s.sub}>iOS + Android starter</Text></View><ScrollView contentContainerStyle={s.body}><Text style={s.h2}>{screen}</Text><Text style={s.p}>${(current?.summary||"").replace(/`/g,"")}</Text>{screen===SCREENS[0]&&FEATURES.map((x,i)=><View key={i} style={s.card}><Text>{x}</Text></View>)}</ScrollView><View style={s.nav}>{SCREENS.map(x=><TouchableOpacity key={x} onPress={()=>setScreen(x)} style={[s.tab,screen===x&&s.active]}><Text numberOfLines={1} style={s.tabText}>{x}</Text></TouchableOpacity>)}</View></SafeAreaView>\n}\nconst s=StyleSheet.create({safe:{flex:1,backgroundColor:'#f7f7fb'},header:{padding:20,backgroundColor:'#111827'},title:{color:'#fff',fontSize:24,fontWeight:'800'},sub:{color:'#cbd5e1',marginTop:4},body:{padding:18,paddingBottom:100},h2:{fontSize:28,fontWeight:'800',marginBottom:8},p:{color:'#475467',lineHeight:22,marginBottom:16},card:{backgroundColor:'#fff',padding:16,borderRadius:16,marginBottom:10},nav:{position:'absolute',left:10,right:10,bottom:10,flexDirection:'row',backgroundColor:'#111827',borderRadius:18,padding:6},tab:{flex:1,padding:10,borderRadius:12},active:{backgroundColor:'#22c1c3'},tabText:{color:'#fff',textAlign:'center',fontSize:11,fontWeight:'700'}});`;return{appjs,package:{"name":slug,"version":"1.0.0","main":"node_modules/expo/AppEntry.js","scripts":{"start":"expo start","android":"expo start --android","ios":"expo start --ios"},"dependencies":{"expo":"latest","react":"latest","react-native":"latest"}},"appjson":{"expo":{"name":current?.title||"My App","slug":slug,"version":"1.0.0","orientation":"portrait","userInterfaceStyle":"automatic","ios":{"bundleIdentifier":`com.yourcompany.${slug.replace(/-/g,"")}`},"android":{"package":`com.yourcompany.${slug.replace(/-/g,"")}`}}},"eas":{"build":{"preview":{"distribution":"internal"},"production":{}}},"readme":`# ${current?.title||"Mobile App"}\n\nExpo/React Native starter for iOS and Android.\n\n## Run\nnpm install\nnpx expo start\n\n## Build later\nnpm install -g eas-cli\neas login\neas build -p ios\neas build -p android\n\nReal login, payments, maps, camera, notifications, cloud database, and AI services need their own integrations and credentials.\nNever put secret API keys in App.js.`,env:"# Add only public client configuration here.\n# Keep secret API keys on a secure backend.\n"}}
+$("appjsBtn").onclick=()=>dl("App.js",mobileFiles().appjs,"text/javascript");$("packageBtn").onclick=()=>dl("package.json",JSON.stringify(mobileFiles().package,null,2),"application/json");$("appjsonBtn").onclick=()=>dl("app.json",JSON.stringify(mobileFiles().appjson,null,2),"application/json");$("easBtn").onclick=()=>dl("eas.json",JSON.stringify(mobileFiles().eas,null,2),"application/json");$("mobileReadmeBtn").onclick=()=>dl("MOBILE_README.md",mobileFiles().readme,"text/markdown");$("envBtn").onclick=()=>dl(".env.example",mobileFiles().env);
+
+$("videoImages").onchange=async e=>{images=[];for(const f of [...e.target.files]){const img=new Image();img.src=URL.createObjectURL(f);await img.decode().catch(()=>{});images.push(img)}drawScene(0)};function scenes(){return current?.video?.scenes?.length?current.video.scenes:current?.sections?.map((x,i)=>({title:`Scene ${i+1}`,text:x,duration:3}))||[]}function wrap(ctx,text,max){const ws=String(text||"").split(/\s+/),out=[];let line="";for(const w of ws){const t=line?line+" "+w:w;if(ctx.measureText(t).width>max&&line){out.push(line);line=w}else line=t}if(line)out.push(line);return out}function cover(ctx,img,w,h){const s=Math.max(w/img.width,h/img.height),dw=img.width*s,dh=img.height*s;ctx.drawImage(img,(w-dw)/2,(h-dh)/2,dw,dh)}
+function drawScene(i){const c=$("canvas"),ctx=c.getContext("2d"),w=c.width,h=c.height,sc=scenes()[i]||{title:current?.title,text:current?.summary};ctx.clearRect(0,0,w,h);if(images.length){cover(ctx,images[i%images.length],w,h);ctx.fillStyle="rgba(0,0,0,.5)";ctx.fillRect(0,0,w,h)}else{const g=ctx.createLinearGradient(0,0,w,h);g.addColorStop(0,"#101828");g.addColorStop(1,"#6d5dfc");ctx.fillStyle=g;ctx.fillRect(0,0,w,h)}ctx.fillStyle="#fff";ctx.textAlign="center";ctx.font="700 56px system-ui";wrap(ctx,sc.title||current?.title,w-100).slice(0,3).forEach((l,j)=>ctx.fillText(l,w/2,250+j*68));ctx.font="400 38px system-ui";wrap(ctx,sc.text||sc.voiceover||"",w-110).slice(0,8).forEach((l,j)=>ctx.fillText(l,w/2,600+j*52))}
+$("previewBtn").onclick=()=>{clearInterval(timer);const s=scenes();let i=0;drawScene(0);timer=setInterval(()=>{i++;if(i>=s.length){clearInterval(timer);return}drawScene(i)},2500)};function mime(){return ["video/mp4","video/webm;codecs=vp9","video/webm;codecs=vp8","video/webm"].find(x=>window.MediaRecorder&&MediaRecorder.isTypeSupported(x))||""}$("exportVideoBtn").onclick=async()=>{const c=$("canvas"),s=scenes();if(!c.captureStream||!window.MediaRecorder){$("videoStatus").textContent="Direct video export is not supported by this browser.";return}if(!s.length){$("videoStatus").textContent="No scenes available.";return}$("videoStatus").textContent="Creating video...";const stream=c.captureStream(30),m=mime();let rec;try{rec=new MediaRecorder(stream,m?{mimeType:m}:undefined)}catch{$("videoStatus").textContent="Video export is not supported.";return}const chunks=[];rec.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};const done=new Promise(res=>rec.onstop=res);rec.start(250);for(let i=0;i<s.length;i++){drawScene(i);await new Promise(r=>setTimeout(r,Math.max(1800,Math.min(6500,Number(s[i].duration||3)*1000))))}rec.stop();await done;const typ=m||rec.mimeType||"video/webm",ext=typ.includes("mp4")?"mp4":"webm";dl(fname(ext),new Blob(chunks,{type:typ}),typ);$("videoStatus").textContent="Video file created."}
+renderHist();if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});
 </script>
 </body>
 </html>
