@@ -1,289 +1,71 @@
 const SYSTEM = `
-You are the AI design engine for Idea2App.
-
-Your job is to turn a user's app idea into a simple, practical app blueprint.
+You are the creation engine for Idea2Anything AI Studio.
 
 Return ONLY valid JSON.
-Do not use markdown.
-Do not use code fences.
-Do not add commentary before or after the JSON.
 
-Return exactly this shape:
-
+Base shape:
 {
-  "app": {
-    "name": "string",
-    "tagline": "string",
-    "description": "string",
-    "accent": "#RRGGBB",
-    "background": "#RRGGBB",
-    "screens": ["string"],
-    "features": ["string"],
-    "modules": {
-      "login": false,
-      "ai": false,
-      "database": false,
-      "maps": false,
-      "payments": false,
-      "booking": false,
-      "camera": false,
-      "notifications": false,
-      "search": false,
-      "analytics": false,
-      "sharing": false
-    }
-  }
+  "type": "mobile|app|website|video|social|document|business|other",
+  "title": "string",
+  "summary": "string",
+  "sections": ["string"],
+  "items": ["string"],
+  "output": {},
+  "mobile": null
 }
 
-Rules:
-- Keep the response compact.
-- Use 3 to 6 screens.
-- Use 4 to 8 useful features.
-- Choose modules only when the app actually needs them.
-- Make the app realistic for a starter version.
-- Prefer simple features over complicated enterprise features.
+If type is "mobile", create a practical cross-platform iOS + Android starter using Expo/React Native.
+Also return:
+"mobile": {
+  "appjs": "complete App.js source code",
+  "packageJson": {},
+  "appJson": {},
+  "easJson": {},
+  "readme": "setup/build instructions",
+  "envExample": "safe example environment variables only"
+}
+
+Mobile requirements:
+- Expo/React Native starter
+- Works on both iOS and Android
+- Use only dependencies listed in packageJson
+- Include bottom-tab style navigation or simple screen switching
+- Include at least Home, one core-action screen, History, and Settings when appropriate
+- Use AsyncStorage for prototype local storage
+- Keep secrets out of client code
+- For AI, payments, maps, login, push notifications, camera, or cloud database, create safe placeholders and clear integration points
+- app.json must include iOS and Android identifiers as editable placeholders
+- eas.json must include preview and production build profiles
+- README must explain:
+  npm install
+  npx expo start
+  eas build -p ios
+  eas build -p android
+- Do not claim App Store or Google Play submission is automatic
+- Do not include private API keys
+
+For non-mobile project types, return mobile:null.
 `;
 
-function jsonResponse(statusCode, body) {
-  return new Response(JSON.stringify(body), {
-    status: statusCode,
-    headers: {
-      "Content-Type": "application/json",
-      "Cache-Control": "no-store"
-    }
-  });
-}
+function jr(status,body){return new Response(JSON.stringify(body),{status,headers:{"Content-Type":"application/json","Cache-Control":"no-store","Access-Control-Allow-Origin":"*"}})}
+function clean(t=""){let v=String(t).trim().replace(/^```json\s*/i,"").replace(/^```\s*/i,"").replace(/\s*```$/i,"").trim();const a=v.indexOf("{"),b=v.lastIndexOf("}");if(a>=0&&b>a)v=v.slice(a,b+1);return v}
+function cfg(mode){if(mode==="deep")return{model:"gpt-5.6-sol",effort:"medium"};if(mode==="balanced")return{model:"gpt-5.6-terra",effort:"low"};return{model:"gpt-5.6-luna",effort:"none"}}
 
-function cleanJSON(text = "") {
-  let value = String(text).trim();
-
-  value = value
-    .replace(/^```json\s*/i, "")
-    .replace(/^```\s*/i, "")
-    .replace(/\s*```$/i, "")
-    .trim();
-
-  const start = value.indexOf("{");
-  const end = value.lastIndexOf("}");
-
-  if (start !== -1 && end !== -1 && end > start) {
-    value = value.slice(start, end + 1);
-  }
-
-  return value;
-}
-
-export default async (request) => {
-  if (request.method === "OPTIONS") {
-    return new Response("", {
-      status: 204,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Allow-Methods": "POST, OPTIONS"
-      }
-    });
-  }
-
-  if (request.method !== "POST") {
-    return jsonResponse(405, {
-      ok: false,
-      error: "Method not allowed"
-    });
-  }
-
-  try {
-    if (!process.env.OPENAI_API_KEY) {
-      return jsonResponse(500, {
-        ok: false,
-        error: "OPENAI_API_KEY is not configured in Netlify."
-      });
-    }
-
-    const body = await request.json().catch(() => ({}));
-
-    const idea = String(
-      body.idea ||
-      body.prompt ||
-      body.message ||
-      ""
-    ).trim();
-
-    const platform = String(body.platform || "Mobile app").trim();
-    const style = String(body.style || "Modern").trim();
-
-    if (!idea) {
-      return jsonResponse(400, {
-        ok: false,
-        error: "Please enter an app idea."
-      });
-    }
-
-    if (idea.length > 3000) {
-      return jsonResponse(400, {
-        ok: false,
-        error: "App idea is too long."
-      });
-    }
-
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 45000);
-
-    const prompt = `
-App idea:
-${idea}
-
-Platform:
-${platform}
-
-Style:
-${style}
-
-Create a compact starter-app blueprint now.
-`;
-
-    let apiResponse;
-
-    try {
-      apiResponse = await fetch("https://api.openai.com/v1/responses", {
-        method: "POST",
-        signal: controller.signal,
-        headers: {
-          "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          model: process.env.OPENAI_MODEL || "gpt-5.6-luna",
-
-          reasoning: {
-            effort: "none"
-          },
-
-          text: {
-            verbosity: "low"
-          },
-
-          instructions: SYSTEM,
-          input: prompt,
-
-          max_output_tokens: 1200,
-          store: false
-        })
-      });
-    } finally {
-      clearTimeout(timeout);
-    }
-
-    const raw = await apiResponse.text();
-
-    if (!apiResponse.ok) {
-      console.error("OpenAI API error:", apiResponse.status, raw);
-
-      let detail = "";
-
-      try {
-        const parsed = JSON.parse(raw);
-        detail =
-          parsed?.error?.message ||
-          parsed?.error?.code ||
-          "";
-      } catch {}
-
-      return jsonResponse(apiResponse.status, {
-        ok: false,
-        error: "OpenAI request failed.",
-        detail: detail || `HTTP ${apiResponse.status}`
-      });
-    }
-
-    let responseData;
-
-    try {
-      responseData = JSON.parse(raw);
-    } catch {
-      console.error("OpenAI returned non-JSON HTTP response:", raw);
-
-      return jsonResponse(502, {
-        ok: false,
-        error: "OpenAI returned an unreadable response."
-      });
-    }
-
-    let outputText = responseData.output_text || "";
-
-    if (!outputText && Array.isArray(responseData.output)) {
-      for (const item of responseData.output) {
-        if (!Array.isArray(item.content)) continue;
-
-        for (const content of item.content) {
-          if (content?.type === "output_text" && content?.text) {
-            outputText += content.text;
-          }
-        }
-      }
-    }
-
-    if (!outputText) {
-      console.error("No output_text returned:", responseData);
-
-      return jsonResponse(502, {
-        ok: false,
-        error: "AI returned no app design."
-      });
-    }
-
-    const cleaned = cleanJSON(outputText);
-
-    let design;
-
-    try {
-      design = JSON.parse(cleaned);
-    } catch (error) {
-      console.error("Could not parse model JSON:", cleaned);
-
-      return jsonResponse(502, {
-        ok: false,
-        error: "AI returned invalid app data.",
-        detail: "Please try again."
-      });
-    }
-
-    if (!design?.app?.name) {
-      return jsonResponse(502, {
-        ok: false,
-        error: "AI response is missing required app information."
-      });
-    }
-
-    return new Response(
-      JSON.stringify({
-        ok: true,
-        ...design
-      }),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-          "Cache-Control": "no-store",
-          "Access-Control-Allow-Origin": "*"
-        }
-      }
-    );
-
-  } catch (error) {
-    console.error("Idea2App function error:", error);
-
-    if (error?.name === "AbortError") {
-      return jsonResponse(504, {
-        ok: false,
-        error: "AI took too long to respond. Please try again."
-      });
-    }
-
-    return jsonResponse(500, {
-      ok: false,
-      error: "AI server error.",
-      detail: String(error?.message || error)
-    });
-  }
+export default async(request)=>{
+ if(request.method==="OPTIONS")return new Response("",{status:204,headers:{"Access-Control-Allow-Origin":"*","Access-Control-Allow-Headers":"Content-Type","Access-Control-Allow-Methods":"POST, OPTIONS"}});
+ if(request.method!=="POST")return jr(405,{ok:false,error:"Method not allowed."});
+ try{
+  if(!process.env.OPENAI_API_KEY)return jr(500,{ok:false,error:"OPENAI_API_KEY is not configured."});
+  const b=await request.json().catch(()=>({})),idea=String(b.idea||"").trim(),type=String(b.type||"auto"),style=String(b.style||"Modern"),instruction=String(b.instruction||"").trim(),previous=b.previous?JSON.stringify(b.previous).slice(0,14000):"";
+  if(!idea)return jr(400,{ok:false,error:"Please enter an idea."});
+  const c=cfg(String(b.mode||"fast")),model=process.env.OPENAI_MODEL||c.model;
+  const input=`USER REQUEST:\n${idea}\n\nREQUESTED TYPE:\n${type}\n\nSTYLE:\n${style}\n\n${instruction?`MODIFICATION:\n${instruction}\n\n`:""}${previous?`PREVIOUS PROJECT:\n${previous}\n\n`:""}Create the project now. If type is auto, infer the best type.`;
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),45000);
+  let r;try{r=await fetch("https://api.openai.com/v1/responses",{method:"POST",signal:controller.signal,headers:{"Authorization":`Bearer ${process.env.OPENAI_API_KEY}`,"Content-Type":"application/json"},body:JSON.stringify({model,reasoning:{effort:c.effort},text:{verbosity:"low"},instructions:SYSTEM,input,max_output_tokens:4200,store:false})})}finally{clearTimeout(timer)}
+  const raw=await r.text();if(!r.ok){let detail=`HTTP ${r.status}`;try{const x=JSON.parse(raw);detail=x?.error?.message||detail}catch{}return jr(r.status,{ok:false,error:"OpenAI request failed.",detail})}
+  let data;try{data=JSON.parse(raw)}catch{return jr(502,{ok:false,error:"OpenAI returned unreadable data."})}
+  let out=data.output_text||"";if(!out&&Array.isArray(data.output))for(const item of data.output)for(const x of item?.content||[])if(x?.type==="output_text"&&x?.text)out+=x.text;
+  let project;try{project=JSON.parse(clean(out))}catch{return jr(502,{ok:false,error:"AI returned invalid project data."})}
+  return jr(200,{ok:true,model,project})
+ }catch(e){if(e?.name==="AbortError")return jr(504,{ok:false,error:"AI took too long. Try Fast mode."});return jr(500,{ok:false,error:"AI server error.",detail:String(e?.message||e)})}
 };
