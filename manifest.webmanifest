@@ -1,0 +1,9 @@
+{
+  "name": "Idea2Anything AI Studio",
+  "short_name": "Idea2Anything",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6f7fb",
+  "theme_color": "#111827",
+  "description": "Multi-purpose AI creation studio"
+}
